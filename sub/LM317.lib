@@ -1,0 +1,40 @@
+* C:\Program Files\LTC\LTspiceIV\My Drawings\LM317 subckt master dev test-2.asc
+
+******************************************************
+* My Model LM317 3-pin Voltage Regulator. 
+* Performance matches datasheet spec.s, 
+* up to 2.2A output unless V across pins 
+* 1 - 3 > 15V, then limited to 400mA max.
+* Adjust pin current = 50uA.
+*
+* Model generated on 18 June 2010
+* Model format: LTspice
+* LM317 Adjustable Voltage Regulator macro model.
+* External node designations
+* Node 1 -> In
+* Node 2 -> Adj
+* Node 3 -> Out
+******************************************************
+
+.SUBCKT LM317 1 2 3
+
+Q1 3 N004 N001 0 QPL
+Q2 N004 3 N007 0 QNL
+Q4 N001 N005 3 0 QNL
+Q5 1 N002 N003 0 QNL2
+C1 N004 3 30pF
+R1 N007 2 10k tol=1
+R3 N002 N001 330 tol=1
+R4 N006 N005 100 tol=1
+I1 1 N001 114µA load
+Q6 1 N003 N006 0 QNL2
+I2 1 N004 49µA load
+S1 3 N006 1 3 CTRIP
+
+.MODEL QNL NPN(BF=100 RB=50)
+.MODEL QNL2 NPN(BF=200 RB=50)
+.MODEL QPL PNP(BF=100 RB=50)
+.MODEL QPL2 PNP(BF=200 RB=50)
+.MODEL CTRIP SW(Ron=1.79 Roff=.32 Vt=15 Vh=0.25 Lser=0 Vser=0)
+.ends
+
